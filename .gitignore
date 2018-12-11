@@ -1,0 +1,10 @@
+# Vendor
+
+front
+node_modules
+
+# ZetaPush Config
+.zetarc
+# TypeScript Generated Files
+/worker/**/*.js
+/worker/**/*.d.ts
