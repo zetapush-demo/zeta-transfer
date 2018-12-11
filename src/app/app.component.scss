@@ -1,0 +1,50 @@
+@import '../variables.scss';
+
+header {
+	text-align: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: $headerHeight;
+	z-index: 10;
+	background: white;
+	box-shadow: 0 7px 8px rgba(0, 0, 0, 0.12);
+	display: flex;
+}
+
+header::after {
+	background: linear-gradient(0.25turn, #80cd3d 0%, #1db6f1 25%, #f1452a 50%, #fbc81e 75%);
+	content: '';
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: $headerHeight;
+	height: 4px;
+}
+
+.homeButton {
+	padding: 10px 0 0 10px;
+	height: 80%;
+	cursor: pointer;
+}
+
+h1 {
+	font-size: 3rem;
+	flex: 1;
+	margin: auto;
+}
+
+mat-spinner {
+	position: absolute;
+	top: 40%;
+	left: calc(50% - 50px);
+}
+
+main {
+	margin-top: $headerHeight;
+	height: calc(100% - #{$headerHeight});
+	overflow: auto;
+	width: 100%;
+	position: absolute;
+}
