@@ -1,5 +1,5 @@
-import { Zpfs_hdfs, FileUploadLocation, Sendmail } from '@zetapush/platform-legacy';
-import { Injectable, Context } from '@zetapush/core';
+import { Zpfs_hdfs, Sendmail, SnapshotItem, CreatedFile, ZpfsToken, FileUploadLocation } from '@zetapush/platform-legacy';
+import { Injectable } from '@zetapush/core';
 
 export interface MyEvent {
 	name: string;
@@ -16,36 +16,41 @@ HACK.DEPLOYMENT_OPTIONS = {
 @Injectable()
 export default class Api {
 
-	private requestContext: Context;
-
 	constructor(
 		private hdfs: Zpfs_hdfs,
 		private sendmail: Sendmail
 	) { }
 
 	/*
-	 * Parse a randomly generated number in string as a base number 36
-	 */
-
-	private generateEventID(): string {
-		return Math.random().toString(36).substring(2);
-	}
-
-	/*
 	 * Check if the file has not already been upload on filesystem,
 	 * if so, delete it, and ask for a upload URL.
 	 */
 
-	async getFileUploadURL(name: string, type: string): Promise<FileUploadLocation> {
-		const path = `/${this.requestContext.owner}_${name}_${Date.now()}`;
+	async getFileUploadURL(path: string): Promise<FileUploadLocation> {
 		const file = await this.hdfs.stat({ path });
 
 		if (file.entry)
 			await this.hdfs.rm({ path });
-		return await this.hdfs.newUploadUrl({
-			contentType: type,
-			path
+		return await this.hdfs.newUploadUrl({ path });
+	}
+
+	/*
+	 * From multiple paths, zip them and return the zip GUID.
+	 */
+
+	async getZipUrl(paths: string[]): Promise<string> {
+		var items: SnapshotItem[] = [];
+
+		paths.forEach(path => items.push({ path }));
+		const snapshot: CreatedFile = await this.hdfs.snapshot({
+			folder: `snapshot_${Date.now()}`,
+			items
 		});
+		const zipToken: ZpfsToken = await this.hdfs.readToken({
+			path: snapshot.path
+		});
+
+		return zipToken.token;
 	}
 
 	/*

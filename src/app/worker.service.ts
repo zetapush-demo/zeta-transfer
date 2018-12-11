@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 
 import { WeakClient, ProxyTaskService } from '@zetapush/client';
-import { Messaging, StackItem, FileUploadLocation } from '@zetapush/platform-legacy';
+import { FileUploadLocation } from '@zetapush/platform-legacy';
 
 export interface MyEvent {
 	name: string;
 	address: string;
 	date: string;
-}
-
-export interface joinEventResponse {
-	event: StackItem;
-	messages: StackItem[];
 }
 
 @Injectable({
@@ -22,7 +16,6 @@ export class WorkerService {
 
 	client: WeakClient;
 	api: ProxyTaskService;
-	observer: Subject<any> = new Subject();
 
 	constructor() {
 		this.client = new WeakClient({
@@ -32,30 +25,17 @@ export class WorkerService {
 		this.api = this.client.createProxyTaskService();
 	}
 
-	async joinEvent(eventID: string): Promise<joinEventResponse> {
-		const eventData = await this.api.joinEvent(eventID) as joinEventResponse;
+	async sendFiles(files: File[]): Promise<string> {
+		var paths: string[] = [];
 
-		if (!eventData)
-			return null;
-		await this.client.createService({
-			Type: Messaging,
-			listener: {
-				[eventID]: ({ data }) => this.observer.next(data.data)
-			}
+		files.forEach(async (file) => {
+			const pathname = `${file.name}_${file.size}_${Date.now()}`;
+			const transfer = await this.api.getFileUploadURL(pathname);
+
+			paths.push(pathname);
+			await this.upload(transfer, file);
 		});
-		return eventData;
-	}
-
-	async sendImage(eventID: string, file: File) {
-		const transfer: FileUploadLocation = await this.api.getImageUploadURL(
-			eventID,
-			file.name,
-			file.type
-		);
-
-		await this.upload(transfer, file);
-		const url = await this.api.getImageURL(transfer.guid);
-		await this.api.sendMessage(eventID, url);
+		return await this.api.getZipUrl(paths) as string;
 	}
 
 	private async upload(transfer: FileUploadLocation, file: File) {
@@ -63,11 +43,11 @@ export class WorkerService {
 			const xhr = new XMLHttpRequest();
 
 			xhr.onreadystatechange = () => {
-				if (xhr.readyState === 4) {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
 					if (200 <= xhr.status && xhr.status < 300)
-						resolve({transfer, file});
+						resolve({ transfer, file });
 					else
-						reject({transfer, file});
+						reject({ transfer, file });
 				}
 			};
 			xhr.open(transfer.httpMethod, this.getSecureUrl(transfer.url), true);
