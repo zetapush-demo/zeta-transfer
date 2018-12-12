@@ -25,6 +25,11 @@ export class WorkerService {
 		this.api = this.client.createProxyTaskService();
 	}
 
+	/*
+	 * Upload each files and group them into zip, return the token corresponding
+	 * to the folder containing all these files on the ZetaPush platform
+	 */
+
 	async sendFiles(files: File[]): Promise<string> {
 		var paths: string[] = [];
 
@@ -35,7 +40,16 @@ export class WorkerService {
 			paths.push(pathname);
 			await this.upload(transfer, file);
 		});
-		return await this.api.getZipUrl(paths) as string;
+		return await this.api.getZipToken(paths) as string;
+	}
+
+	/*
+	 * From token representing the access for the folder,
+	 * return an URL for an HTTP GET download
+	 */
+
+	async getUrlFromToken(token: string) {
+		return `http://<rt-node>/str/rest/deployed/<sandboxId>/<deployId>/zip/${token}`;
 	}
 
 	private async upload(transfer: FileUploadLocation, file: File) {

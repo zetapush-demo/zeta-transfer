@@ -35,10 +35,10 @@ export default class Api {
 	}
 
 	/*
-	 * From multiple paths, zip them and return the zip GUID.
+	 * From multiple paths, zip them and return the zip GUID (use as token).
 	 */
 
-	async getZipUrl(paths: string[]): Promise<string> {
+	async getZipToken(paths: string[]): Promise<string> {
 		var items: SnapshotItem[] = [];
 
 		paths.forEach(path => items.push({ path }));
