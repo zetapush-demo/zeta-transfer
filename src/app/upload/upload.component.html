@@ -1,3 +1,40 @@
-<p>
-	upload works!
-</p>
+<div *ngIf="!url" class="form" [class.mat-elevation-z8]="true">
+	<input style="display: none" #input type="file" (change)="addFiles($event.target.files)" multiple/>
+	<button mat-flat-button color="primary" (click)="input.click()">
+		<mat-icon> add_circle_outline </mat-icon>
+		Add your files
+	</button>
+	<ul *ngIf="files && files.length" class="filelist">
+		<li *ngFor="let file of files; let index = index" class="file">
+			<h3> {{file.name}}
+				<span class="filesize"> {{file.size}} bytes</span>
+			</h3>
+			<span style="flex: 1 1 auto"></span>
+			<mat-icon (click)="files.splice(index, 1)"> clear </mat-icon>
+		</li>
+	</ul>
+	<div *ngIf="formType === 'Email'" class="email-form">
+		<mat-form-field>
+			<input matInput #yourName placeholder="Your name" autocomplete="off">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput #sendTo placeholder="Send to" autocomplete="off">
+		</mat-form-field>
+		<mat-form-field>
+			<textarea matInput #message placeholder="Your message"></textarea>
+		</mat-form-field>
+	</div>
+	<mat-radio-group [(ngModel)]="formType">
+		<mat-radio-button color="primary" *ngFor="let formtype of formTypes" [value]="formtype">
+			{{formtype}}
+		</mat-radio-button>
+	</mat-radio-group>
+	<button mat-flat-button color="primary" (click)="transferFiles()"> Transfer </button>
+</div>
+
+<div *ngIf="url" class="form" [class.mat-elevation-z8]="true">
+	You have finished !
+	Copy the download link :
+	<input matInput readonly [value]="url">
+	<button mat-flat-button color="primary" (click)="url = null"> Another ? </button>
+</div>

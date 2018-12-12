@@ -1,0 +1,53 @@
+button {
+	margin: 30px 0;
+	padding: 15px 0;
+	height: 70%;
+	width: 70%;
+	font-size: 26px;
+}
+
+.email-form {
+	text-align: center;
+}
+
+.form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 50%;
+	margin: 100px auto 0px auto;
+
+	mat-form-field {
+		margin: 30px 0;
+		text-align: center;
+		width: 40%;
+		height: 20%;
+	}
+
+	.filelist {
+		list-style: none;
+		max-height: 250px;
+		overflow: auto;
+
+		.file {
+			border-bottom: 2px solid #E8EBED;
+			margin: 0 10px;
+			padding: 0.5em 0.625em;
+			align-items: center;
+			display: flex;
+
+			.filesize {
+				color: #6A6D70;
+				font-weight: 400;
+			}
+
+			mat-icon {
+				cursor: pointer;
+			}
+		}
+	}
+
+	mat-radio-button {
+		margin-right: 10px;
+	}
+}
