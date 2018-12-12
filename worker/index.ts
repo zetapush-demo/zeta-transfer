@@ -69,7 +69,8 @@ export default class Api {
 	 * Send mail with the files to download them.
 	 */
 
-	async sendMail(to: string[], filesUrl: string[], subject: string, message?: string) {
+	async sendMail(to: string[], filesUrl: string[], name: string, message?: string) {
+		const subject = `${name} share you ${filesUrl.length} files`;
 		var text: string = `${message}\nClick on each file to download them !\n\n`;
 
 		filesUrl.forEach(url =>
