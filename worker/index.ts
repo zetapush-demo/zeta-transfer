@@ -65,7 +65,7 @@ export default class Api {
 	}
 
 	/*
-	 * From file guid, get file url from filesystem
+	 * Notify that it's done uploading to platform and return hdfs.stat()
 	 */
 
 	async validUpload(guid: string): Promise<ListingEntryInfo> {

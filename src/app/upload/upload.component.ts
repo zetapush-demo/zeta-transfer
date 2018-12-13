@@ -20,7 +20,6 @@ export class UploadComponent {
 
 	async addFiles(inputFiles: File[]) {
 		this.files = this.files.concat(...inputFiles);
-		console.log(this.files);
 	}
 
 	async transferFiles() {

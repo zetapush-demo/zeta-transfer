@@ -63,10 +63,6 @@ export class WorkerService {
 		return new Promise<any>((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
 
-			xhr.onprogress = (event) => {
-				if (event.lengthComputable)
-					console.log(event.loaded / event.total * 100)
-			};
 			xhr.onreadystatechange = () => {
 				if (xhr.readyState === XMLHttpRequest.DONE) {
 					console.log('upload :', file.name, xhr.status);
