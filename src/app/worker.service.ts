@@ -19,8 +19,8 @@ export class WorkerService {
 
 	constructor() {
 		this.client = new WeakClient({
-			platformUrl: 'https://celtia.zetapush.com/zbo/pub/business',
-			appName: 'vx4ca4oqq'
+			platformUrl: 'http://hq.zpush.io:9080/zbo/pub/business',
+			appName: 'z3tswa6v4'
 		});
 		this.api = this.client.createProxyTaskService();
 	}
@@ -41,7 +41,6 @@ export class WorkerService {
 			await this.upload(transfer, files[i]);
 			await this.api.validUpload(transfer.guid);
 		}
-		console.log('paths', paths);
 		return await this.api.getZipToken(paths) as string;
 	}
 
@@ -51,11 +50,10 @@ export class WorkerService {
 	 */
 
 	async getUrlFromToken(token: string) {
-		const appName = 'vx4ca4oqq';
+		const appName = 'z3tswa6v4';
 		const deployId = 'zpfs_hdfs_0';
 		const rtNode = await (<any>this.client).getServers();
 
-		console.log('rtNode', rtNode);
 		return `${rtNode[0]}/rest/deployed/${appName}/${deployId}/zip/${token}`;
 	}
 

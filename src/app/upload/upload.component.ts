@@ -28,7 +28,6 @@ export class UploadComponent {
 
 			this.url = await this.workerService.getUrlFromToken(token);
 			console.log('token', token);
-			console.log('url', this.url);
 		}
 		// if (this.formType === 'EMAIL')
 		// 	await this.workerService.api.sendMail();

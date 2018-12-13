@@ -44,22 +44,13 @@ export default class Api {
 		if (!paths || !paths.length)
 			return null;
 		paths.forEach(path => items.push({ path }));
-
 		const snapshot: CreatedFile = await this.hdfs.snapshot({
 			folder: `./snapshot_${Date.now()}/`,
-			items,
-			flatten: true,
+			items
 		});
-		if (!snapshot)
-			return null;
-		console.log(snapshot.path);
-		const folder = await this.hdfs.ls({
-			folder: snapshot.path
-		});
-		console.log(folder.entries.content);
 		const zipToken: ZpfsToken = await this.hdfs.readToken({
 			path: snapshot.path
-		})
+		});
 
 		return zipToken && zipToken.token;
 	}
