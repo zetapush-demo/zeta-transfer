@@ -49,7 +49,11 @@ export class WorkerService {
 	 */
 
 	async getUrlFromToken(token: string) {
-		return `http://<rt-node>/str/rest/deployed/<sandboxId>/<deployId>/zip/${token}`;
+		const appName = 'vx4ca4oqq';
+		const deployId = 'zpfs_hdfs_0';
+		const rtNode = await (<any>this.client).getServers()[0];
+
+		return `${rtNode}/rest/deployed/${appName}/${deployId}/zip/${token}`;
 	}
 
 	private async upload(transfer: FileUploadLocation, file: File) {

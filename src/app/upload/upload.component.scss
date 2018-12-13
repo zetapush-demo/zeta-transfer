@@ -51,3 +51,20 @@ button {
 		margin-right: 10px;
 	}
 }
+
+.transfer-content {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 50%;
+	margin: 100px auto 0px auto;
+
+	input {
+		border: 1px solid #BABCBF;
+		border-radius: 5px;
+		padding: 20px;
+		color: #484A4D;
+		width: 50%;
+		text-align: center;
+	}
+}

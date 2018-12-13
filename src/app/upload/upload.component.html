@@ -32,9 +32,9 @@
 	<button mat-flat-button color="primary" (click)="transferFiles()"> Transfer </button>
 </div>
 
-<div *ngIf="url" class="form" [class.mat-elevation-z8]="true">
-	You have finished !
-	Copy the download link :
+<div *ngIf="url" class="transfer-content" [class.mat-elevation-z8]="true">
+	<h2> You have finished ! </h2>
+	<p> Copy the download link : </p>
 	<input matInput readonly [value]="url">
 	<button mat-flat-button color="primary" (click)="url = null"> Another ? </button>
 </div>
