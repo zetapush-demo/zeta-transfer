@@ -69,17 +69,14 @@ export default class Api {
 	 * Send mail with the files to download them.
 	 */
 
-	async sendMail(to: string[], filesUrl: string[], name: string, message?: string) {
-		const subject = `${name} share you ${filesUrl.length} files`;
-		var text: string = `${message}\nClick on each file to download them !\n\n`;
+	async sendMail(to: string[], url: string, name: string, message?: string) {
+		const subject = `${name} share you some files`;
+		const text = `${message}\nClick on ${url} to download them !\n\n`;
 
-		filesUrl.forEach(url =>
-			text = text.concat(`\t- ${url}\n`)
-		);
 		await this.sendmail.send({
 			to,
 			subject,
 			text
-		})
+		});
 	}
 }
