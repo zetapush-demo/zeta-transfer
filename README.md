@@ -1,9 +1,17 @@
 # ZetaPush Celtia Example
 
+zeta-transfer allows people to send files around the world.
+
 ## Installation
 
 ```console
 npm install
+```
+
+## Angular build
+
+```console
+npm run build -- --prod
 ```
 
 ## Deployment
@@ -27,9 +35,7 @@ npm run start
 ```console
 .
 └──
-  ├── public
-  │  ├── index.html
-  │  └── index.js
+  ├── src (Angular application)
   ├── worker
   │  └── index.ts (api implementation)
   └── package.json
