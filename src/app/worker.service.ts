@@ -19,8 +19,8 @@ export class WorkerService {
 
 	constructor() {
 		this.client = new WeakClient({
-			platformUrl: 'http://hq.zpush.io:9080/zbo/pub/business/',
-			appName: 'pumj9v7yg'
+			platformUrl: 'https://celtia.zetapush.com/zbo/pub/business',
+			appName: 'vx4ca4oqq'
 		});
 		this.api = this.client.createProxyTaskService();
 	}
@@ -33,13 +33,15 @@ export class WorkerService {
 	async sendFiles(files: File[]): Promise<string> {
 		var paths: string[] = [];
 
-		files.forEach(async (file) => {
-			const pathname = `${file.name}_${file.size}_${Date.now()}`;
-			const transfer = await this.api.getFileUploadURL(pathname);
+		for (var i = 0; i < files.length; i++) {
+			const pathname = `${files[i].name}_${files[i].size}_${Date.now()}`;
+			const transfer: FileUploadLocation = await this.api.getFileUploadURL(pathname);
 
 			paths.push(pathname);
-			await this.upload(transfer, file);
-		});
+			await this.upload(transfer, files[i]);
+			await this.api.validUpload(transfer.guid);
+		}
+		console.log('paths', paths);
 		return await this.api.getZipToken(paths) as string;
 	}
 
@@ -51,18 +53,24 @@ export class WorkerService {
 	async getUrlFromToken(token: string) {
 		const appName = 'vx4ca4oqq';
 		const deployId = 'zpfs_hdfs_0';
-		const rtNode = await (<any>this.client).getServers()[0];
+		const rtNode = await (<any>this.client).getServers();
 
-		return `${rtNode}/rest/deployed/${appName}/${deployId}/zip/${token}`;
+		console.log('rtNode', rtNode);
+		return `${rtNode[0]}/rest/deployed/${appName}/${deployId}/zip/${token}`;
 	}
 
 	private async upload(transfer: FileUploadLocation, file: File) {
 		return new Promise<any>((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
 
+			xhr.onprogress = (event) => {
+				if (event.lengthComputable)
+					console.log(event.loaded / event.total * 100)
+			};
 			xhr.onreadystatechange = () => {
 				if (xhr.readyState === XMLHttpRequest.DONE) {
-					if (200 <= xhr.status && xhr.status < 300)
+					console.log('upload :', file.name, xhr.status);
+					if (xhr.status >= 200 && xhr.status < 300)
 						resolve({ transfer, file });
 					else
 						reject({ transfer, file });

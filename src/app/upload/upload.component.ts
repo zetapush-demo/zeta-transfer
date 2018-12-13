@@ -24,12 +24,13 @@ export class UploadComponent {
 	}
 
 	async transferFiles() {
-		this.url = 'https://we.tl/t-VulQcRzjkJ';
-		// if (this.files && this.files.length) {
-		// 	const token = await this.workerService.sendFiles(this.files);
+		if (this.files && this.files.length) {
+			const token = await this.workerService.sendFiles(this.files);
 
-		// 	this.url = await this.workerService.getUrlFromToken(token);
-		// }
+			this.url = await this.workerService.getUrlFromToken(token);
+			console.log('token', token);
+			console.log('url', this.url);
+		}
 		// if (this.formType === 'EMAIL')
 		// 	await this.workerService.api.sendMail();
 		this.files = [];

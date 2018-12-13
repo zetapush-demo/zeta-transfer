@@ -1,4 +1,4 @@
-import { Zpfs_hdfs, Sendmail, SnapshotItem, CreatedFile, ZpfsToken, FileUploadLocation } from '@zetapush/platform-legacy';
+import { Zpfs_hdfs, Sendmail, SnapshotItem, CreatedFile, ZpfsToken, FileUploadLocation, ListingEntryInfo } from '@zetapush/platform-legacy';
 import { Injectable } from '@zetapush/core';
 
 export interface MyEvent {
@@ -41,28 +41,37 @@ export default class Api {
 	async getZipToken(paths: string[]): Promise<string> {
 		var items: SnapshotItem[] = [];
 
+		if (!paths || !paths.length)
+			return null;
 		paths.forEach(path => items.push({ path }));
+
 		const snapshot: CreatedFile = await this.hdfs.snapshot({
-			folder: `snapshot_${Date.now()}`,
-			items
+			folder: `./snapshot_${Date.now()}/`,
+			items,
+			flatten: true,
 		});
+		if (!snapshot)
+			return null;
+		console.log(snapshot.path);
+		const folder = await this.hdfs.ls({
+			folder: snapshot.path
+		});
+		console.log(folder.entries.content);
 		const zipToken: ZpfsToken = await this.hdfs.readToken({
 			path: snapshot.path
-		});
+		})
 
-		return zipToken.token;
+		return zipToken && zipToken.token;
 	}
 
 	/*
 	 * From file guid, get file url from filesystem
 	 */
 
-	async getFileURL(guid: string): Promise<string> {
-		const { url } = await this.hdfs.newFile({
+	async validUpload(guid: string): Promise<ListingEntryInfo> {
+		return await this.hdfs.newFile({
 			guid
 		});
-
-		return url.url;
 	}
 
 	/*
