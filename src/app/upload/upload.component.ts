@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 import { WorkerService } from '../worker.service';
 
@@ -10,9 +10,13 @@ import { WorkerService } from '../worker.service';
 export class UploadComponent {
 
 	formTypes: string[] = ['Email', 'Link'];
-	formType = 'Email';
+	formType = this.formTypes[0];
 	files: File[] = [];
 	url: string;
+
+	@ViewChild('yourName') yourName: ElementRef;
+	@ViewChild('sendTo') sendTo: ElementRef;
+	@ViewChild('message') message: ElementRef;
 
 	constructor(
 		private workerService: WorkerService,
@@ -29,8 +33,13 @@ export class UploadComponent {
 			this.url = await this.workerService.getUrlFromToken(token);
 			console.log('token', token);
 		}
-		// if (this.formType === 'EMAIL')
-		// 	await this.workerService.api.sendMail();
+		if (this.url && this.formType === this.formTypes[0])
+			await this.workerService.api.sendMail(
+				this.sendTo.nativeElement.value,
+				this.url,
+				this.yourName.nativeElement.value,
+				this.message.nativeElement.value || ''
+			);
 		this.files = [];
 	}
 }

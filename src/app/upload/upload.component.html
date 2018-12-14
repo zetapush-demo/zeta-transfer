@@ -13,12 +13,12 @@
 			<mat-icon (click)="files.splice(index, 1)"> clear </mat-icon>
 		</li>
 	</ul>
-	<div *ngIf="formType === 'Email'" class="email-form">
+	<div *ngIf="formType === formTypes[0]" class="email-form">
 		<mat-form-field>
-			<input matInput #yourName placeholder="Your name" autocomplete="off">
+			<input matInput #yourName placeholder="Your name" autocomplete="off" required>
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput #sendTo placeholder="Send to" autocomplete="off">
+			<input matInput #sendTo placeholder="Send to" autocomplete="off" required>
 		</mat-form-field>
 		<mat-form-field>
 			<textarea matInput #message placeholder="Your message"></textarea>
