@@ -28,18 +28,21 @@ export class UploadComponent {
 
 	async transferFiles() {
 		if (this.files && this.files.length) {
+			this.url = '';
 			const token = await this.workerService.sendFiles(this.files);
 
 			this.url = await this.workerService.getUrlFromToken(token);
 			console.log('token', token);
 		}
-		if (this.url && this.formType === this.formTypes[0])
-			await this.workerService.api.sendMail(
-				this.sendTo.nativeElement.value,
-				this.url,
-				this.yourName.nativeElement.value,
-				this.message.nativeElement.value || ''
-			);
+
+		if (this.formType === this.formTypes[0]) {
+			const yourName = this.yourName.nativeElement.value;
+			const sendTo = this.sendTo.nativeElement.value;
+			const message = this.message.nativeElement.value;
+
+			if (this.url && sendTo.length && yourName.length)
+				await this.workerService.api.sendMail(sendTo, this.url, yourName, message || '');
+		}
 		this.files = [];
 	}
 }

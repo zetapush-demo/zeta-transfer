@@ -52,6 +52,13 @@ button {
 	}
 }
 
+
+mat-spinner {
+	position: absolute;
+	top: 40%;
+	left: calc(50% - 50px);
+}
+
 .transfer-content {
 	display: flex;
 	align-items: center;

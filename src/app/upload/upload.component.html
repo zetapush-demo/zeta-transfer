@@ -1,4 +1,4 @@
-<div *ngIf="!url" class="form" [class.mat-elevation-z8]="true">
+<div *ngIf="url === undefined" class="form" [class.mat-elevation-z8]="true">
 	<input style="display: none" #input type="file" (change)="addFiles($event.target.files)" multiple/>
 	<button mat-flat-button color="primary" (click)="input.click()">
 		<mat-icon> add_circle_outline </mat-icon>
@@ -32,7 +32,9 @@
 	<button mat-flat-button color="primary" (click)="transferFiles()"> Transfer </button>
 </div>
 
-<div *ngIf="url" class="transfer-content" [class.mat-elevation-z8]="true">
+<mat-spinner *ngIf="url !== undefined && url.length === 0"></mat-spinner>
+
+<div *ngIf="url !== undefined && url.length !== 0" class="transfer-content" [class.mat-elevation-z8]="true">
 	<h2> You have finished ! </h2>
 	<p> Copy the download link : </p>
 	<input matInput readonly [value]="url">

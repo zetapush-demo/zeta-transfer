@@ -18,10 +18,7 @@ export class WorkerService {
 	api: ProxyTaskService;
 
 	constructor() {
-		this.client = new WeakClient({
-			platformUrl: 'http://hq.zpush.io:9080/zbo/pub/business',
-			appName: 'z3tswa6v4'
-		});
+		this.client = new WeakClient();
 		this.api = this.client.createProxyTaskService();
 	}
 
