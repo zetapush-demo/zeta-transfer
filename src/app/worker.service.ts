@@ -34,7 +34,7 @@ export class WorkerService {
 		var paths: string[] = [];
 
 		for (var i = 0; i < files.length; i++) {
-			const pathname = `${files[i].name}_${files[i].size}_${Date.now()}`;
+			const pathname = `${Date.now()}_${files[i].name}`;
 			const transfer: FileUploadLocation = await this.api.getFileUploadURL(pathname);
 
 			paths.push(pathname);
@@ -50,7 +50,7 @@ export class WorkerService {
 	 */
 
 	async getUrlFromToken(token: string) {
-		const appName = 'z3tswa6v4';
+		const appName = this.client.getAppName();
 		const deployId = 'zpfs_hdfs_0';
 		const rtNode = await (<any>this.client).getServers();
 

@@ -45,8 +45,9 @@ export default class Api {
 			return null;
 		paths.forEach(path => items.push({ path }));
 		const snapshot: CreatedFile = await this.hdfs.snapshot({
-			folder: `./snapshot_${Date.now()}/`,
-			items
+			folder: `./zip_${Date.now()}/`,
+			items,
+			flatten: true
 		});
 		const zipToken: ZpfsToken = await this.hdfs.readToken({
 			path: snapshot.path
