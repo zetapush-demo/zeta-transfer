@@ -22,7 +22,7 @@
 		"@angular/platform-browser-dynamic": "~7.1.0",
 		"@angular/router": "~7.1.0",
 		"@types/node": "10.12.14",
-		"@zetapush/cli": "^0.37.1",
+		"@zetapush/cli": "^0.37.2",
 		"@zetapush/core": "0.37.1",
 		"@zetapush/platform-legacy": "0.37.1",
 		"core-js": "^2.6.0",
