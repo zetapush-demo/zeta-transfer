@@ -13,23 +13,7 @@
 			<mat-icon (click)="files.splice(index, 1)"> clear </mat-icon>
 		</li>
 	</ul>
-	<div *ngIf="formType === formTypes[0]" class="email-form">
-		<mat-form-field>
-			<input matInput #yourName placeholder="Your name" autocomplete="off" required>
-		</mat-form-field>
-		<mat-form-field>
-			<input matInput #sendTo placeholder="Send to" autocomplete="off" required>
-		</mat-form-field>
-		<mat-form-field>
-			<textarea matInput #message placeholder="Your message"></textarea>
-		</mat-form-field>
-	</div>
-	<mat-radio-group [(ngModel)]="formType">
-		<mat-radio-button color="primary" *ngFor="let formtype of formTypes" [value]="formtype">
-			{{formtype}}
-		</mat-radio-button>
-	</mat-radio-group>
-	<button mat-flat-button color="primary" (click)="transferFiles()"> Transfer </button>
+	<button mat-flat-button color="primary" [disabled]="!files || !files.length" (click)="transferFiles()"> Transfer </button>
 </div>
 
 <mat-spinner *ngIf="url !== undefined && url.length === 0"></mat-spinner>

@@ -3,12 +3,6 @@ import { Injectable } from '@angular/core';
 import { WeakClient, ProxyTaskService } from '@zetapush/client';
 import { FileUploadLocation } from '@zetapush/platform-legacy';
 
-export interface MyEvent {
-	name: string;
-	address: string;
-	date: string;
-}
-
 @Injectable({
 	providedIn: 'root'
 })

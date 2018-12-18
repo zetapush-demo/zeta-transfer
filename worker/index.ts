@@ -1,11 +1,5 @@
-import { Zpfs_hdfs, Sendmail, SnapshotItem, CreatedFile, ZpfsToken, FileUploadLocation, ListingEntryInfo } from '@zetapush/platform-legacy';
+import { Zpfs_hdfs, SnapshotItem, CreatedFile, ZpfsToken, FileUploadLocation, ListingEntryInfo } from '@zetapush/platform-legacy';
 import { Injectable } from '@zetapush/core';
-
-export interface MyEvent {
-	name: string;
-	address: string;
-	date: string;
-}
 
 const HACK = <any>(Zpfs_hdfs);
 HACK.DEPLOYMENT_OPTIONS = {
@@ -18,7 +12,6 @@ export default class Api {
 
 	constructor(
 		private hdfs: Zpfs_hdfs,
-		private sendmail: Sendmail
 	) { }
 
 	/*
@@ -63,21 +56,6 @@ export default class Api {
 	async validUpload(guid: string): Promise<ListingEntryInfo> {
 		return await this.hdfs.newFile({
 			guid
-		});
-	}
-
-	/*
-	 * Send mail with URL to download them.
-	 */
-
-	async sendMail(to: string, url: string, name: string, message?: string) {
-		const subject = `${name} shares you some files`;
-		const text = `${message}\nClick on ${url} to download them !\n\n`;
-
-		await this.sendmail.send({
-			to: [to],
-			subject,
-			text
 		});
 	}
 }
