@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { WorkerService } from '../worker.service';
+
 @Component({
 	selector: 'app-download',
 	templateUrl: './download.component.html',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DownloadComponent implements OnInit {
 
-	constructor() { }
+	url: string;
 
-	ngOnInit() {
+	constructor(
+		private workerService: WorkerService,
+	) { }
+
+	async ngOnInit() {
+		const token = window.location.href.split('/').pop();
+
+		this.url = await this.workerService.getUrlFromToken(token);
 	}
-
 }

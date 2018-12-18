@@ -25,8 +25,8 @@ export class UploadComponent {
 			this.url = '';
 			const token = await this.workerService.sendFiles(this.files);
 
-			this.url = await this.workerService.getUrlFromToken(token);
 			console.log('token', token);
+			this.url = `${window.location.origin}/${token}`;
 		}
 		this.files = [];
 	}

@@ -1,3 +1,4 @@
-<p>
-	download works!
-</p>
+<div *ngIf="url && url.length" [class.mat-elevation-z8]="true">
+	<h1> Click to download files ! </h1>
+	<a mat-raised-button color="primary" [href]="url"> Download files </a>
+</div>
