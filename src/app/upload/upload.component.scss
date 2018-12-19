@@ -11,11 +11,11 @@ button {
 	align-items: center;
 	flex-direction: column;
 	width: 50%;
-	margin: 100px auto 0px auto;
+	margin: 58px auto 0px auto;
 
 	.filelist {
 		list-style: none;
-		max-height: 250px;
+		max-height: 500px;
 		overflow: auto;
 
 		.file {
