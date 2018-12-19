@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { environment } from 'src/environments/environment';
 import { WorkerService } from '../worker.service';
 
 @Component({
@@ -26,7 +27,10 @@ export class UploadComponent {
 			const token = await this.workerService.sendFiles(this.files);
 
 			console.log('token', token);
-			this.url = `${window.location.origin}/${token}`;
+			if (environment.useHash)
+				this.url = `${window.location.origin}${window.location.pathname}#/${token}`;
+			else
+				this.url = `${window.location.origin}/${token}`;
 		}
 		this.files = [];
 	}
